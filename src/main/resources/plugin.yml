@@ -1,0 +1,4 @@
+name: DevUtils
+version: '${project.version}'
+main: shortdev.devutils.DevUtils
+api-version: 1.20
