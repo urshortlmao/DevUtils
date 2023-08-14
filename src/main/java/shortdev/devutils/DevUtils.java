@@ -2,16 +2,11 @@ package shortdev.devutils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.java.JavaPlugin;
-import shortdev.devutils.customenchantments.CustomEnchantment;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 public final class DevUtils extends JavaPlugin {
@@ -53,34 +48,40 @@ public final class DevUtils extends JavaPlugin {
         return true;
     }
 
-    public static ItemStack createGuiItem(Material material, int count, String name, List<String> lore, List<CustomEnchantment> customEnchantments) {
-        if (count > 64) count = 64;
-        ItemStack item = new ItemStack(material, count);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-            List<String> colouredLore = new ArrayList<>();
-            for (String line : lore) {
-                colouredLore.add(ChatColor.translateAlternateColorCodes('&', line));
-            }
-            meta.setLore(colouredLore);
-            PersistentDataContainer container = meta.getPersistentDataContainer();
-            container.set();
+    public static String randomAlphabeticalString(int length) {
+        if (length < 0) {
+            return null;
         }
+        StringBuilder builder = new StringBuilder();
+        final char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+        for (int i = 0; i < length; i++) {
+            Random random = new Random();
+            int randInt = random.nextInt(26);
+            builder.append(alphabet[randInt]);
+        }
+        return builder.toString();
     }
 
-    public static ItemStack createGuiItem(Material material, int count, char alternateColorChar, String name, List<String> lore, List<CustomEnchantment> customEnchantments) {
-        if (count > 64) count = 64;
-        ItemStack item = new ItemStack(material, count);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
-            List<String> colouredLore = new ArrayList<>();
-            for (String line : lore) {
-                colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
-            }
-            meta.setLore(colouredLore);
-            meta.getPersistentDataContainer()
+    public static String uniqueRandomAlphabeticalString(int length, List<String> previouslyGenerated) {
+        if (length < 0) {
+            return null;
         }
+        if (previouslyGenerated.size() >= Math.pow(26, length)) {
+
+        }
+        StringBuilder builder = new StringBuilder();
+        final char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+        for (int i = 0; i < length; i++) {
+            Random random = new Random();
+            int randInt = random.nextInt(26);
+            builder.append(alphabet[randInt]);
+        }
+        if (!previouslyGenerated.contains(builder.toString())) return builder.toString();
+
     }
+
+    private static String uniqueRandomAlphabeticalString(int length, List<String> previouslyGenerated, int recursions) {
+        
+    }
+
 }
