@@ -1,44 +1,34 @@
 package shortdev.devutils.customenchantments;
 
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
+import shortdev.devutils.DevUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class CustomEnchantment {
-    private static HashMap<NamespacedKey, CustomEnchantment> customEnchantmentMap = new HashMap<>();
-
-    private List<CustomEnchantmentType> types;
+    private static HashMap<String, CustomEnchantment> customEnchantmentMap = new HashMap<>();
     private HashMap<CustomEnchantmentType, Integer> typeLevelMap;
-    private final NamespacedKey key;
+    private final String key;
 
-    public CustomEnchantment(List<CustomEnchantmentType> types, HashMap<CustomEnchantmentType, Integer> typeLevelMap) {
-        this.types = types;
+    public CustomEnchantment(HashMap<CustomEnchantmentType, Integer> typeLevelMap) {
         this.typeLevelMap = typeLevelMap;
-        this.key = NamespacedKey.fromString();
+        this.key = Objects.requireNonNull(DevUtils.uniqueRandomAlphabeticalString(8, customEnchantmentMap.keySet()));
     }
 
-    public static HashMap<NamespacedKey, CustomEnchantment> getCustomEnchantmentMap() {
+    public static HashMap<String, CustomEnchantment> getCustomEnchantmentMap() {
         return customEnchantmentMap;
     }
 
-    public static void setCustomEnchantmentMap(HashMap<NamespacedKey, CustomEnchantment> customEnchantmentMap) {
+    public static void setCustomEnchantmentMap(HashMap<String, CustomEnchantment> customEnchantmentMap) {
         CustomEnchantment.customEnchantmentMap = customEnchantmentMap;
     }
 
     public void addType(CustomEnchantmentType type, int value) {
-        types.add(type);
         typeLevelMap.put(type, value);
     }
 
-    public List<CustomEnchantmentType> getTypes() {
-        return types;
-    }
-
-    public void setTypes(List<CustomEnchantmentType> types) {
-        this.types = types;
+    public Set<CustomEnchantmentType> getTypes() {
+        return typeLevelMap.keySet();
     }
 
     public HashMap<CustomEnchantmentType, Integer> getTypeLevelMap() {
@@ -49,13 +39,13 @@ public class CustomEnchantment {
         this.typeLevelMap = typeLevelMap;
     }
 
-    public NamespacedKey getKey() {
+    public String getKey() {
         return key;
     }
 
     public List<String> getLore() {
         List<String> lore = new ArrayList<>();
-        for (CustomEnchantmentType type : types) {
+        for (CustomEnchantmentType type : typeLevelMap.keySet()) {
             lore.add(ChatColor.GRAY + type.getName() + " " + getRomanNumeral(typeLevelMap.get(type)));
         }
         return lore;

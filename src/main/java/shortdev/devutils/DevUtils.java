@@ -4,17 +4,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import shortdev.devutils.gui.Button;
 
-import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 public final class DevUtils extends JavaPlugin {
 
+    public static final char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    public static int defaultScreenSize = 27;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
-
+        Button.plugin = this;
     }
 
     @Override
@@ -53,7 +57,6 @@ public final class DevUtils extends JavaPlugin {
             return null;
         }
         StringBuilder builder = new StringBuilder();
-        final char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
         for (int i = 0; i < length; i++) {
             Random random = new Random();
             int randInt = random.nextInt(26);
@@ -62,26 +65,21 @@ public final class DevUtils extends JavaPlugin {
         return builder.toString();
     }
 
-    public static String uniqueRandomAlphabeticalString(int length, List<String> previouslyGenerated) {
+    public static String uniqueRandomAlphabeticalString(int length, Set<String> previouslyGenerated) {
         if (length < 0) {
             return null;
         }
         if (previouslyGenerated.size() >= Math.pow(26, length)) {
-
+            return null;
         }
         StringBuilder builder = new StringBuilder();
-        final char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
         for (int i = 0; i < length; i++) {
             Random random = new Random();
             int randInt = random.nextInt(26);
             builder.append(alphabet[randInt]);
         }
         if (!previouslyGenerated.contains(builder.toString())) return builder.toString();
-
-    }
-
-    private static String uniqueRandomAlphabeticalString(int length, List<String> previouslyGenerated, int recursions) {
-        
+        return uniqueRandomAlphabeticalString(length, previouslyGenerated);
     }
 
 }
