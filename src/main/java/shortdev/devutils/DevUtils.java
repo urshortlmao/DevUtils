@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import shortdev.devutils.gui.Button;
+import shortdev.devutils.listeners.MovementListener;
+import shortdev.devutils.npc.NPC;
 
 import java.util.Random;
 import java.util.Set;
@@ -13,12 +15,21 @@ import java.util.UUID;
 public final class DevUtils extends JavaPlugin {
 
     public static final char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-    public static int defaultScreenSize = 27;
+
+
+    protected boolean debug = true;
+
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         Button.plugin = this;
+
+        getServer().getPluginManager().registerEvents(new MovementListener(), this);
+
+        if (NPC.spawnNPCSOnRestart) {
+
+        }
     }
 
     @Override

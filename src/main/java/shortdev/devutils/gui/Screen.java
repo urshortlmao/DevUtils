@@ -7,12 +7,14 @@ import shortdev.devutils.DevUtils;
 public class Screen {
     private Inventory inventory;
 
+    public static int defaultScreenSize = 27;
+
     public Screen(Inventory inventory) {
         this.inventory = inventory;
     }
 
     public Screen() {
-        inventory = Bukkit.createInventory(null, DevUtils.defaultScreenSize);
+        inventory = Bukkit.createInventory(null, defaultScreenSize);
     }
 
     public Inventory getInventory() {

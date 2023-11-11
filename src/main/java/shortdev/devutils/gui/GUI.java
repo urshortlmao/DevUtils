@@ -8,10 +8,9 @@ import java.util.List;
 
 public class GUI {
     private List<Screen> screens = new ArrayList<>();
-    public static int defaultSize = 54;
 
     public GUI() {
-        screens.add(new Screen(Bukkit.createInventory(null, defaultSize)));
+        screens.add(new Screen());
     }
 
     public GUI(int inventorySize) {
