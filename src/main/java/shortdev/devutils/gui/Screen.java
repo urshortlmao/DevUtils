@@ -2,7 +2,6 @@ package shortdev.devutils.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
-import shortdev.devutils.DevUtils;
 
 public class Screen {
     private Inventory inventory;

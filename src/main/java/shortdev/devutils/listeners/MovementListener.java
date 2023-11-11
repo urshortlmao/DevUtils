@@ -19,7 +19,7 @@ public class MovementListener implements Listener {
             ServerPlayer sp = npc.getServerPlayer();
             Location location = sp.getBukkitEntity().getLocation();
             Vector delta = e.getPlayer().getLocation().subtract(location).toVector();
-            if (delta.length() > npc.despawnDistance) {
+            if (delta.length() >= npc.despawnDistance) {
                 npc.despawn();
                 continue;
             }

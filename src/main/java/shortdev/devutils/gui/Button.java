@@ -16,64 +16,45 @@ import java.util.Objects;
 
 public class Button {
     private ItemStack item;
+    private Material material;
+    private int count;
+    private String name;
+    private List<String> lore;
 
     public static DevUtils plugin;
 
-    public Button(ItemStack item) {
+    public Button(Material material, int count, char alternateColorChar, String name, List<String> lore) {
+        if (count > 64) count = 64;
+        item = new ItemStack(material, count);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
+            List<String> colouredLore = new ArrayList<>();
+            for (String line : lore) {
+                colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
+            }
+            meta.setLore(colouredLore);
+        }
+        item.setItemMeta(meta);
+    }
+
+    public Button(ItemStack item, char alternateColorChar, String name, List<String> lore) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
+            List<String> colouredLore = new ArrayList<>();
+            for (String line : lore) {
+                colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
+            }
+            meta.setLore(colouredLore);
+        }
+        item.setItemMeta(meta);
         this.item = item;
     }
 
-    public static Button create(Material material, int count, String name, List<String> lore) {
+    public Button(Material material, int count, char alternateColorChar, String name, List<String> lore, CustomEnchantment customEnchantment) {
         if (count > 64) count = 64;
-        ItemStack item = new ItemStack(material, count);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-            List<String> colouredLore = new ArrayList<>();
-            for (String line : lore) {
-                colouredLore.add(ChatColor.translateAlternateColorCodes('&', line));
-            }
-            meta.setLore(colouredLore);
-        }
-        return new Button(item);
-    }
-
-    public static Button create(Material material, int count, char alternateColorChar, String name, List<String> lore) {
-        if (count > 64) count = 64;
-        ItemStack item = new ItemStack(material, count);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
-            List<String> colouredLore = new ArrayList<>();
-            for (String line : lore) {
-                colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
-            }
-            meta.setLore(colouredLore);
-        }
-        return new Button(item);
-    }
-
-    public static Button create(Material material, int count, String name, List<String> lore, CustomEnchantment customEnchantment) {
-        if (count > 64) count = 64;
-        ItemStack item = new ItemStack(material, count);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-            PersistentDataContainer container = meta.getPersistentDataContainer();
-            container.set(Objects.requireNonNull(NamespacedKey.fromString(customEnchantment.getKey(), plugin)), PersistentDataType.BOOLEAN, true);
-            List<String> colouredLore = new ArrayList<>();
-            for (String line : lore) {
-                colouredLore.add(ChatColor.translateAlternateColorCodes('&', line));
-            }
-            colouredLore.addAll(customEnchantment.getLore());
-            meta.setLore(colouredLore);
-        }
-        return new Button(item);
-    }
-
-    public static Button create(Material material, int count, char alternateColorChar, String name, List<String> lore, CustomEnchantment customEnchantment) {
-        if (count > 64) count = 64;
-        ItemStack item = new ItemStack(material, count);
+        item = new ItemStack(material, count);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
@@ -86,7 +67,24 @@ public class Button {
             colouredLore.addAll(customEnchantment.getLore());
             meta.setLore(colouredLore);
         }
-        return new Button(item);
+        item.setItemMeta(meta);
+    }
+
+    public Button(ItemStack item, char alternateColorChar, String name, List<String> lore, CustomEnchantment customEnchantment) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            container.set(Objects.requireNonNull(NamespacedKey.fromString(customEnchantment.getKey(), plugin)), PersistentDataType.BOOLEAN, true);
+            List<String> colouredLore = new ArrayList<>();
+            for (String line : lore) {
+                colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
+            }
+            colouredLore.addAll(customEnchantment.getLore());
+            meta.setLore(colouredLore);
+        }
+        item.setItemMeta(meta);
+        this.item = item;
     }
 
     public ItemStack getItem() {
@@ -95,5 +93,25 @@ public class Button {
 
     public void setItem(ItemStack item) {
         this.item = item;
+        material = item.getType();
+        count = item.getAmount();
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+        item = new ItemStack(material, count);
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+        item = new ItemStack(material, count);
     }
 }
