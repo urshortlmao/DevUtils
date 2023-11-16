@@ -12,7 +12,7 @@ public class CustomEnchantment {
     private boolean hideLore = false;
 
 
-    public static boolean showRomanNumerals = true;
+    public static boolean useRomanNumerals = true;
 
     public CustomEnchantment(HashMap<CustomEnchantmentType, Integer> typeLevelMap) {
         this.typeLevelMap = typeLevelMap;
@@ -49,13 +49,13 @@ public class CustomEnchantment {
 
     public List<String> getLore() {
         List<String> lore = new ArrayList<>();
-        if (showRomanNumerals) {
+        if (useRomanNumerals) {
             for (CustomEnchantmentType type : typeLevelMap.keySet()) {
-                lore.add(ChatColor.GRAY + type.getName() + " " + DevUtils.getRomanNumeral(typeLevelMap.get(type)));
+                lore.add(type.getColor() + type.getName() + " " + DevUtils.getRomanNumeral(typeLevelMap.get(type)));
             }
         } else {
             for (CustomEnchantmentType type : typeLevelMap.keySet()) {
-                lore.add(ChatColor.GRAY + type.getName() + " " + typeLevelMap.get(type));
+                lore.add(type.getColor() + type.getName() + " " + typeLevelMap.get(type));
             }
         }
         return lore;

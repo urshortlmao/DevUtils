@@ -3,18 +3,19 @@ package shortdev.devutils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import shortdev.devutils.gui.Button;
+import shortdev.devutils.data.Save;
 import shortdev.devutils.listeners.MovementListener;
 
-import java.io.File;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
 public final class DevUtils extends JavaPlugin {
 
     public static final char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    private static DevUtils plugin;
+    private static HashMap<String, Plugin> plugins;
 
 
     public boolean debug = true;
@@ -23,14 +24,42 @@ public final class DevUtils extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        Button.plugin = this;
+        plugin = this;
 
         getServer().getPluginManager().registerEvents(new MovementListener(), this);
+
+        List<String> pluginData = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(getDataFolder() + "PluginInfo"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                pluginData.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        HashMap<Integer, Save> saves = new HashMap<>();
+        for (String str : pluginData) {
+            for (File file : Objects.requireNonNull(new File(str).listFiles())) {
+                Save save = new Save(file.getPath());
+                saves.put(save.getId(), save);
+            }
+        }
+        Save.setSaves(saves);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        for (Save save : Save.getSaves().values()) {
+            save.saveToFile();
+        }
+        Save save = new Save(this, "PluginInfo", new HashMap<>());
+        HashMap<String, String> data = new HashMap<>();
+        for (Plugin plugin : plugins.values()) {
+            data.put(plugin.getName(), plugin.getDataFolder().getPath());
+        }
+        save.update(data);
+        save.saveToFile();
     }
 
     public static void sendMessage(String message, Player player) {
@@ -135,6 +164,14 @@ public final class DevUtils extends JavaPlugin {
             });
         }
         return stringBuilder.toString();
+    }
+
+    public static DevUtils getPlugin() {
+        return plugin;
+    }
+
+    public void registerPlugin(Plugin plugin) {
+        plugins.put(plugin.getName(), plugin);
     }
 
 }

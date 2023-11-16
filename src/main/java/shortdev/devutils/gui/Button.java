@@ -20,12 +20,16 @@ public class Button {
     private int count;
     private String name;
     private List<String> lore;
+    private CustomEnchantment customEnchantment;
+    private char colorChar;
 
     public static DevUtils plugin;
 
     public Button(Material material, int count, char alternateColorChar, String name, List<String> lore) {
+        colorChar = alternateColorChar;
         if (count > 64) count = 64;
         item = new ItemStack(material, count);
+        this.name = name;
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
@@ -34,11 +38,14 @@ public class Button {
                 colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
             }
             meta.setLore(colouredLore);
+            this.lore = colouredLore;
         }
         item.setItemMeta(meta);
     }
 
     public Button(ItemStack item, char alternateColorChar, String name, List<String> lore) {
+        colorChar = alternateColorChar;
+        this.name = name;
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
@@ -47,14 +54,18 @@ public class Button {
                 colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
             }
             meta.setLore(colouredLore);
+            this.lore = colouredLore;
         }
         item.setItemMeta(meta);
         this.item = item;
     }
 
     public Button(Material material, int count, char alternateColorChar, String name, List<String> lore, CustomEnchantment customEnchantment) {
+        colorChar = alternateColorChar;
         if (count > 64) count = 64;
         item = new ItemStack(material, count);
+        this.name = name;
+        this.customEnchantment = customEnchantment;
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
@@ -64,13 +75,19 @@ public class Button {
             for (String line : lore) {
                 colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
             }
-            colouredLore.addAll(customEnchantment.getLore());
+            if (!customEnchantment.isLoreHidden()) {
+                colouredLore.addAll(customEnchantment.getLore());
+            }
             meta.setLore(colouredLore);
+            this.lore = colouredLore;
         }
         item.setItemMeta(meta);
     }
 
     public Button(ItemStack item, char alternateColorChar, String name, List<String> lore, CustomEnchantment customEnchantment) {
+        colorChar = alternateColorChar;
+        this.name = name;
+        this.customEnchantment = customEnchantment;
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes(alternateColorChar, name));
@@ -80,8 +97,11 @@ public class Button {
             for (String line : lore) {
                 colouredLore.add(ChatColor.translateAlternateColorCodes(alternateColorChar, line));
             }
-            colouredLore.addAll(customEnchantment.getLore());
+            if (!customEnchantment.isLoreHidden()) {
+                colouredLore.addAll(customEnchantment.getLore());
+            }
             meta.setLore(colouredLore);
+            this.lore = colouredLore;
         }
         item.setItemMeta(meta);
         this.item = item;
@@ -113,5 +133,91 @@ public class Button {
     public void setCount(int count) {
         this.count = count;
         item = new ItemStack(material, count);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes(colorChar, name));
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            container.set(Objects.requireNonNull(NamespacedKey.fromString(customEnchantment.getKey(), plugin)), PersistentDataType.BOOLEAN, true);
+            List<String> colouredLore = new ArrayList<>();
+            for (String line : lore) {
+                colouredLore.add(ChatColor.translateAlternateColorCodes(colorChar, line));
+            }
+            colouredLore.addAll(customEnchantment.getLore());
+            meta.setLore(colouredLore);
+            this.lore = colouredLore;
+        }
+        item.setItemMeta(meta);
+    }
+
+    public List<String> getLore() {
+        return lore;
+    }
+
+    public void setLore(List<String> lore) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            List<String> colouredLore = new ArrayList<>();
+            for (String line : lore) {
+                colouredLore.add(ChatColor.translateAlternateColorCodes(colorChar, line));
+            }
+            colouredLore.addAll(customEnchantment.getLore());
+            meta.setLore(colouredLore);
+            this.lore = colouredLore;
+        }
+        item.setItemMeta(meta);
+    }
+
+    public CustomEnchantment getCustomEnchantment() {
+        return customEnchantment;
+    }
+
+    public void setCustomEnchantment(CustomEnchantment customEnchantment) {
+        this.customEnchantment = customEnchantment;
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            container.set(Objects.requireNonNull(NamespacedKey.fromString(customEnchantment.getKey(), plugin)), PersistentDataType.BOOLEAN, true);
+            List<String> colouredLore = new ArrayList<>();
+            for (String line : lore) {
+                colouredLore.add(ChatColor.translateAlternateColorCodes(colorChar, line));
+            }
+            colouredLore.addAll(customEnchantment.getLore());
+            meta.setLore(colouredLore);
+            this.lore = colouredLore;
+        }
+        item.setItemMeta(meta);
+        this.item = item;
+    }
+
+    public char getColorChar() {
+        return colorChar;
+    }
+
+    public void setColorChar(char colorChar) {
+        this.colorChar = colorChar;
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes(colorChar, name));
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            container.set(Objects.requireNonNull(NamespacedKey.fromString(customEnchantment.getKey(), plugin)), PersistentDataType.BOOLEAN, true);
+            List<String> colouredLore = new ArrayList<>();
+            for (String line : lore) {
+                colouredLore.add(ChatColor.translateAlternateColorCodes(colorChar, line));
+            }
+            if (!customEnchantment.isLoreHidden()) {
+                colouredLore.addAll(customEnchantment.getLore());
+            }
+            meta.setLore(colouredLore);
+            this.lore = colouredLore;
+        }
+        item.setItemMeta(meta);
     }
 }

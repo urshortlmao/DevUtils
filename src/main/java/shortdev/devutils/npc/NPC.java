@@ -26,7 +26,7 @@ public class NPC {
     private static List<ServerPlayer> npcs = new ArrayList<>();
     private String name;
     private final int id;
-    private Collection<? extends Player> viewers;
+    private Collection<Player> viewers;
     private UUID uuid;
     private Location location;
     private ServerPlayer npc;
@@ -55,7 +55,7 @@ public class NPC {
         feetItem = null;
     }
 
-    public NPC(Collection<? extends Player> viewers, UUID npcUUID, char colorChar, String name, Location location) {
+    public NPC(Collection<Player> viewers, UUID npcUUID, char colorChar, String name, Location location) {
         this.name = ChatColor.translateAlternateColorCodes(colorChar, name);
         int tempId = 1;
         while (npcMap.containsKey(tempId)) tempId++;
@@ -93,7 +93,7 @@ public class NPC {
         this.feetItem = feetItem;
     }
 
-    public NPC(Collection<? extends Player> viewers, UUID npcUUID, char colorChar, String name, Location location, String signature, String texture, ItemStack mainHandItem, ItemStack offHandItem, ItemStack headItem, ItemStack chestItem, ItemStack legsItem, ItemStack feetItem) {
+    public NPC(Collection<Player> viewers, UUID npcUUID, char colorChar, String name, Location location, String signature, String texture, ItemStack mainHandItem, ItemStack offHandItem, ItemStack headItem, ItemStack chestItem, ItemStack legsItem, ItemStack feetItem) {
         this.name = ChatColor.translateAlternateColorCodes(colorChar, name);
         int tempId = 1;
         while (npcMap.containsKey(tempId)) tempId++;
@@ -177,7 +177,7 @@ public class NPC {
         return name;
     }
 
-    public Collection<? extends Player> getViewers() {
+    public Collection<Player> getViewers() {
         return viewers;
     }
 
@@ -275,5 +275,13 @@ public class NPC {
 
     public void setTexture(String texture) {
         this.texture = texture;
+    }
+
+    public void setViewers(Collection<Player> viewers) {
+        this.viewers = viewers;
+    }
+
+    public void addViewer(Player viewer) {
+        viewers.add(viewer);
     }
 }

@@ -3,27 +3,56 @@ package shortdev.devutils.data;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.util.List;
+import java.util.HashMap;
 
 public class Save {
 
+    private static HashMap<Integer, Save> saves = new HashMap<>();
     private final String filePath;
-    List<String> data;
+    private final int id;
+    HashMap<String, String> data;
 
-    public Save(Plugin plugin, String fileName, List<String> data) {
-        filePath = plugin.getDataFolder() + fileName;
+    public Save(Plugin plugin, String fileName, HashMap<String, String> data) {
         this.data = data;
+        int tempId = 1;
+        while (saves.containsKey(tempId)) tempId++;
+        id = tempId;
+        saves.put(id, this);
+        filePath = plugin.getDataFolder() + fileName + "_" + id;
     }
 
-    public void update(List<String> data) {
-        this.data = data;
-        save();
+    public Save(String filePath) {
+        this.filePath = filePath;
+        data = new HashMap<>();
+        String[] fileNameParts = filePath.split("_");
+        id = Integer.parseInt(fileNameParts[fileNameParts.length - 1]);
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] lineParts = line.split(": ");
+                String key = lineParts[0];
+                String value;
+                StringBuilder builder = new StringBuilder();
+                for (int i = 1; i < lineParts.length; i++) {
+                    builder.append(lineParts[i]);
+                }
+                value = builder.toString();
+                data.put(key, value);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void save() {
+    public void update(HashMap<String, String> data) {
+        this.data = data;
+        saves.put(id, this);
+    }
+
+    public void saveToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (String str : data) {
-                writer.write(str);
+            for (String key : data.keySet()) {
+                writer.write(key + ": " + data.get(key));
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -31,23 +60,20 @@ public class Save {
         }
     }
 
-    public void load() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                data.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (String s : data) {
-            String[] entry = s.split(",");
-            // get separate data from line
-        }
-    }
-
-    public List<String> getData() {
+    public HashMap<String, String> getData() {
         return data;
     }
+
+    public static HashMap<Integer, Save> getSaves() {
+        return saves;
+    }
+
+    public static void setSaves(HashMap<Integer, Save> saves) {
+        Save.saves = saves;
+    }
+
+    public int getId() {
+        return id;
+    }
+
 }
