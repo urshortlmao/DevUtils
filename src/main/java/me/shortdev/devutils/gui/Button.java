@@ -1,5 +1,7 @@
-package shortdev.devutils.gui;
+package me.shortdev.devutils.gui;
 
+import me.shortdev.devutils.DevUtils;
+import me.shortdev.devutils.customenchantments.CustomEnchantment;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -7,8 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import shortdev.devutils.DevUtils;
-import shortdev.devutils.customenchantments.CustomEnchantment;
 
 import java.util.ArrayList;
 import java.util.List;

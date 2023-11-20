@@ -1,4 +1,4 @@
-package shortdev.devutils.npc;
+package me.shortdev.devutils.npc;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;

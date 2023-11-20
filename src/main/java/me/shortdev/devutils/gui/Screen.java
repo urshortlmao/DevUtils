@@ -1,4 +1,4 @@
-package shortdev.devutils.gui;
+package me.shortdev.devutils.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;

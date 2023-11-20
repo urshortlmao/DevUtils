@@ -1,4 +1,4 @@
-package shortdev.devutils.customenchantments;
+package me.shortdev.devutils.customenchantments;
 
 import org.bukkit.ChatColor;
 

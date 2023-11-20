@@ -1,6 +1,6 @@
-package shortdev.devutils.customenchantments;
+package me.shortdev.devutils.customenchantments;
 
-import shortdev.devutils.DevUtils;
+import me.shortdev.devutils.DevUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
