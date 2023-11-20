@@ -20,7 +20,7 @@ public class MovementListener implements Listener {
             Location location = sp.getBukkitEntity().getLocation();
             Vector delta = e.getPlayer().getLocation().subtract(location).toVector();
             if (delta.length() >= npc.despawnDistance) {
-                npc.despawn();
+                npc.despawnForPlayer(e.getPlayer());
                 continue;
             }
             location.setDirection(delta);

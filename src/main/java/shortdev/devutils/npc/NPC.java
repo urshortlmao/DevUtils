@@ -157,6 +157,15 @@ public class NPC {
         }
     }
 
+    public void despawnForPlayer(Player player) {
+        CraftPlayer craftPlayer = (CraftPlayer) player;
+        ServerPlayer sp = craftPlayer.getHandle();
+
+        ServerGamePacketListenerImpl ps = sp.connection;
+
+        ps.send(new ClientboundRemoveEntitiesPacket(npc.getBukkitEntity().getEntityId()));
+    }
+
     public void delete() {
         despawn();
         npcs.remove(npc);

@@ -10,15 +10,29 @@ public class Save {
     private static HashMap<Integer, Save> saves = new HashMap<>();
     private final String filePath;
     private final int id;
+    private Plugin plugin;
     HashMap<String, String> data;
 
     public Save(Plugin plugin, String fileName, HashMap<String, String> data) {
+        this.plugin = plugin;
         this.data = data;
         int tempId = 1;
         while (saves.containsKey(tempId)) tempId++;
         id = tempId;
         saves.put(id, this);
         filePath = plugin.getDataFolder() + fileName + "_" + id;
+    }
+
+    public Save(int id, Plugin plugin, String fileName, HashMap<String, String> data) throws Exception {
+        this.plugin = plugin;
+        this.data = data;
+        this.id = id;
+        filePath = plugin.getDataFolder() + fileName + "_" + id;
+        if (saves.containsKey(id)) {
+            Save save = saves.get(id);
+            throw new Exception(plugin.getName() + " tried to create a duplicate DevUtils Save instance with the ID " + id + ". It seems that the plugin " + save.plugin.getName() + " is already using this ID.");
+        }
+        saves.put(id, this);
     }
 
     public Save(String filePath) {

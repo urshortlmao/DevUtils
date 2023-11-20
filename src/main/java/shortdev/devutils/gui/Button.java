@@ -194,7 +194,6 @@ public class Button {
             this.lore = colouredLore;
         }
         item.setItemMeta(meta);
-        this.item = item;
     }
 
     public char getColorChar() {

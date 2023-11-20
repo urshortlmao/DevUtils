@@ -39,7 +39,8 @@ public final class DevUtils extends JavaPlugin {
         }
         HashMap<Integer, Save> saves = new HashMap<>();
         for (String str : pluginData) {
-            for (File file : Objects.requireNonNull(new File(str).listFiles())) {
+            String[] lineParts = str.split(": ");
+            for (File file : Objects.requireNonNull(new File(lineParts[1]).listFiles())) {
                 Save save = new Save(file.getPath());
                 saves.put(save.getId(), save);
             }

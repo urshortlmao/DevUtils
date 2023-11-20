@@ -1,9 +1,11 @@
 package shortdev.devutils.customenchantments;
 
-import org.bukkit.ChatColor;
 import shortdev.devutils.DevUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class CustomEnchantment {
     private static HashMap<String, CustomEnchantment> customEnchantmentMap = new HashMap<>();
