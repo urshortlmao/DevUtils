@@ -1,12 +1,13 @@
 package me.shortdev.devutils;
 
+import me.shortdev.devutils.npc.listeners.RightClickListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import me.shortdev.devutils.data.Save;
-import me.shortdev.devutils.listeners.MovementListener;
+import me.shortdev.devutils.npc.listeners.MovementListener;
 
 import java.io.*;
 import java.util.*;
@@ -27,6 +28,7 @@ public final class DevUtils extends JavaPlugin {
         plugin = this;
 
         getServer().getPluginManager().registerEvents(new MovementListener(), this);
+        getServer().getPluginManager().registerEvents(new RightClickListener(), this);
 
         List<String> pluginData = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(getDataFolder() + "PluginInfo"))) {

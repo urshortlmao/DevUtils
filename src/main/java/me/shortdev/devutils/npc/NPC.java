@@ -32,6 +32,7 @@ public class NPC {
     private ServerPlayer npc;
     private String signature, texture;
     private ItemStack mainHandItem, offHandItem, headItem, chestItem, legsItem, feetItem;
+    private NPCResponse response;
 
     public static int defaultNPCDespawnDistance = 128;
     public int despawnDistance = defaultNPCDespawnDistance;
@@ -292,5 +293,13 @@ public class NPC {
 
     public void addViewer(Player viewer) {
         viewers.add(viewer);
+    }
+
+    public NPCResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(NPCResponse response) {
+        this.response = response;
     }
 }

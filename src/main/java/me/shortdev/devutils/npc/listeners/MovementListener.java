@@ -1,4 +1,4 @@
-package me.shortdev.devutils.listeners;
+package me.shortdev.devutils.npc.listeners;
 
 import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundRotateHeadPacket;

@@ -29,4 +29,9 @@ public class GUI {
         this.screens = screens;
     }
 
+    public enum Type {
+        INVENTORY,
+        ANVIL
+    }
+
 }
