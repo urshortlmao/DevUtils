@@ -1,15 +1,9 @@
 package me.shortdev.devutils.data;
 
-import me.shortdev.devutils.DevUtils;
-import me.shortdev.devutils.npc.NPC;
-import me.shortdev.devutils.npc.NPCResponse;
-import me.shortdev.devutils.npc.ResponseHandler;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Set;
 
 public class Save {
 

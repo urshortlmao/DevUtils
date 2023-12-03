@@ -16,6 +16,7 @@ public class NPCResponse {
     public NPCResponse(int npcId, Method method) {
         this.npcId = npcId;
         this.method = method;
+        responseMap.put(npcId, this);
     }
 
     public static void setup() {
@@ -53,5 +54,9 @@ public class NPCResponse {
 
     public int getNpcId() {
         return npcId;
+    }
+
+    public static HashMap<Integer, NPCResponse> getResponseMap() {
+        return responseMap;
     }
 }

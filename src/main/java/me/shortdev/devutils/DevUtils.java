@@ -1,6 +1,9 @@
 package me.shortdev.devutils;
 
+import me.shortdev.devutils.customenchantments.CustomEnchantment;
+import me.shortdev.devutils.customenchantments.CustomEnchantmentType;
 import me.shortdev.devutils.data.Save;
+import me.shortdev.devutils.npc.NPCResponse;
 import me.shortdev.devutils.npc.listeners.MovementListener;
 import me.shortdev.devutils.npc.listeners.RightClickListener;
 import org.bukkit.Bukkit;
@@ -37,7 +40,7 @@ public final class DevUtils extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MovementListener(), this);
         getServer().getPluginManager().registerEvents(new RightClickListener(), this);
 
-        //Load save metadata
+        //Load saves
         List<String> pluginData = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(getDataFolder() + "PluginInfo"))) {
             String line;
@@ -60,17 +63,31 @@ public final class DevUtils extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        //Save save metadata
-        for (Save save : Save.getSaves().values()) {
-            save.saveToFile();
+        //Create save for CustomEnchantment data
+        Save enchantmentSave = new Save(this, "CustomEnchantmentData", new HashMap<>());
+        HashMap<String, String> enchantmentData = new HashMap<>();
+        for (String key : CustomEnchantment.getCustomEnchantmentMap().keySet()) {
+            StringBuilder builder = new StringBuilder();
+            CustomEnchantment customEnchantment = CustomEnchantment.getCustomEnchantmentMap().get(key);
+            for (CustomEnchantmentType type : customEnchantment.getTypes()) {
+                builder.append(type).append(";").append(customEnchantment.getTypeLevelMap().get(type)).append(",");
+            }
+            enchantmentData.put(key, builder.substring(0, builder.length() - 1));
         }
+        enchantmentSave.update(enchantmentData);
+
+        //Save metadata
         Save save = new Save(this, "PluginInfo", new HashMap<>());
         HashMap<String, String> data = new HashMap<>();
         for (Plugin plugin : plugins.values()) {
             data.put(plugin.getName(), plugin.getDataFolder().getPath());
         }
         save.update(data);
-        save.saveToFile();
+
+        //Save all
+        for (Save s : Save.getSaves().values()) {
+            s.saveToFile();
+        }
     }
 
     public static void sendMessage(String message, Player player) {
@@ -179,6 +196,7 @@ public final class DevUtils extends JavaPlugin {
 
     public static void registerNPCResponseClasses(Plugin plugin, Class<?>... npcResponseClasses) {
         pluginResponseClassMap.put(plugin, Set.copyOf(Arrays.asList(npcResponseClasses)));
+        NPCResponse.setup();
     }
 
     public static DevUtils getPlugin() {
