@@ -3,6 +3,7 @@ package me.shortdev.devutils.npc;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.datafixers.util.Pair;
+import me.shortdev.devutils.DevUtils;
 import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
@@ -12,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.EquipmentSlot;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
@@ -19,7 +21,9 @@ import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.Method;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class NPC {
     private static HashMap<Integer, NPC> npcMap = new HashMap<>();
@@ -171,6 +175,26 @@ public class NPC {
         despawn();
         npcs.remove(npc);
         npcMap.remove(id);
+    }
+
+    public static void listAll() {
+        Logger logger = DevUtils.getPlugin().getLogger();
+        logger.info("DevUtils NPC List:");
+        for (int k : npcMap.keySet()) {
+            NPC npc = npcMap.get(k);
+            String name = npc.getName();
+            StringBuilder builder = new StringBuilder();
+            for (Player player : npc.getViewers()) {
+                builder.append(player.getName()).append(", ");
+            }
+            UUID uuid = npc.getUUID();
+            double x = npc.getLocation().getX();
+            double y = npc.getLocation().getY();
+            double z = npc.getLocation().getZ();
+            NPCResponse response = npc.getResponse();
+            Method method = response.getMethod();
+            logger.info("NPC ID " + k + " - NAME: " + name + ", VIEWERS: {" + builder + "}, UUID: " + uuid + ", LOCATION: (" + x + ", " + y + ", " + z + "), RESPONSE: (CLASS: \"" + method.getDeclaringClass().getName() + "\", METHOD: \"" + method.getName() + "\")");
+        }
     }
 
     public int getId() {

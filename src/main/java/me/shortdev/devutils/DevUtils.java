@@ -1,15 +1,18 @@
 package me.shortdev.devutils;
 
+import me.shortdev.devutils.data.Save;
+import me.shortdev.devutils.npc.listeners.MovementListener;
 import me.shortdev.devutils.npc.listeners.RightClickListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import me.shortdev.devutils.data.Save;
-import me.shortdev.devutils.npc.listeners.MovementListener;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public final class DevUtils extends JavaPlugin {
@@ -17,6 +20,7 @@ public final class DevUtils extends JavaPlugin {
     public static final char[] alphabet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
     private static DevUtils plugin;
     private static HashMap<String, Plugin> plugins;
+    private static HashMap<Plugin, Set<Class<?>>> pluginResponseClassMap;
 
 
     public boolean debug = true;
@@ -24,12 +28,16 @@ public final class DevUtils extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        getLogger().info("DevUtils Alpha v1.0.0");
+
+        //Making this instance statically accessible
         plugin = this;
 
+        //Registering event classes
         getServer().getPluginManager().registerEvents(new MovementListener(), this);
         getServer().getPluginManager().registerEvents(new RightClickListener(), this);
 
+        //Load save metadata
         List<String> pluginData = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(getDataFolder() + "PluginInfo"))) {
             String line;
@@ -52,7 +60,7 @@ public final class DevUtils extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        //Save save metadata
         for (Save save : Save.getSaves().values()) {
             save.saveToFile();
         }
@@ -169,12 +177,19 @@ public final class DevUtils extends JavaPlugin {
         return stringBuilder.toString();
     }
 
+    public static void registerNPCResponseClasses(Plugin plugin, Class<?>... npcResponseClasses) {
+        pluginResponseClassMap.put(plugin, Set.copyOf(Arrays.asList(npcResponseClasses)));
+    }
+
     public static DevUtils getPlugin() {
         return plugin;
     }
 
-    public void registerPlugin(Plugin plugin) {
+    public static void registerPlugin(Plugin plugin) {
         plugins.put(plugin.getName(), plugin);
     }
 
+    public static HashMap<Plugin, Set<Class<?>>> getPluginResponseClassMap() {
+        return pluginResponseClassMap;
+    }
 }

@@ -6,14 +6,14 @@ import org.bukkit.inventory.Inventory;
 public class Screen {
     private Inventory inventory;
 
-    public static int defaultScreenSize = 27;
+    public static int defaultSize = 27;
 
     public Screen(Inventory inventory) {
         this.inventory = inventory;
     }
 
     public Screen() {
-        inventory = Bukkit.createInventory(null, defaultScreenSize);
+        inventory = Bukkit.createInventory(null, defaultSize);
     }
 
     public Inventory getInventory() {
