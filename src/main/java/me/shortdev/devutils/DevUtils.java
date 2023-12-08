@@ -194,8 +194,17 @@ public final class DevUtils extends JavaPlugin {
         return stringBuilder.toString();
     }
 
+    public static <E> E[] sortArrayByDesiredType(E[] array, Class<?>[] desiredTypeOrder) {
+        Class<?>[] actualTypeOrder = new Class<?>[array.length];
+        for (int i = 0; i < array.length; i++) {
+            E element = array[i];
+            actualTypeOrder[i] = element.getClass();
+        }
+        
+    }
+
     public static void registerNPCResponseClasses(Plugin plugin, Class<?>... npcResponseClasses) {
-        pluginResponseClassMap.put(plugin, Set.copyOf(Arrays.asList(npcResponseClasses)));
+        pluginResponseClassMap.put(plugin, Set.of(npcResponseClasses));
         NPCResponse.setup();
     }
 
