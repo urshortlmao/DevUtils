@@ -1,4 +1,4 @@
-package me.shortdev.devutils.customenchantments;
+package me.shortdev.devutils.packages.customenchantments;
 
 import me.shortdev.devutils.DevUtils;
 

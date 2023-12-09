@@ -1,4 +1,4 @@
-package me.shortdev.devutils.npc;
+package me.shortdev.devutils.packages.npc;
 
 import me.shortdev.devutils.DevUtils;
 import org.bukkit.entity.Player;

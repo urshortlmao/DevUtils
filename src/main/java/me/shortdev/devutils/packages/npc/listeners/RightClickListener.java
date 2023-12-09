@@ -1,7 +1,7 @@
-package me.shortdev.devutils.npc.listeners;
+package me.shortdev.devutils.packages.npc.listeners;
 
-import me.shortdev.devutils.npc.NPC;
-import me.shortdev.devutils.npc.NPCResponse;
+import me.shortdev.devutils.packages.npc.NPC;
+import me.shortdev.devutils.packages.npc.NPCResponse;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;

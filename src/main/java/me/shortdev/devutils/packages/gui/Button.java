@@ -1,7 +1,7 @@
-package me.shortdev.devutils.gui;
+package me.shortdev.devutils.packages.gui;
 
 import me.shortdev.devutils.DevUtils;
-import me.shortdev.devutils.customenchantments.CustomEnchantment;
+import me.shortdev.devutils.packages.customenchantments.CustomEnchantment;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

@@ -1,4 +1,4 @@
-package me.shortdev.devutils.command;
+package me.shortdev.devutils.packages.command;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

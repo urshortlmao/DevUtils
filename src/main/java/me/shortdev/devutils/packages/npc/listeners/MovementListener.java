@@ -1,4 +1,4 @@
-package me.shortdev.devutils.npc.listeners;
+package me.shortdev.devutils.packages.npc.listeners;
 
 import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundRotateHeadPacket;
@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
-import me.shortdev.devutils.npc.NPC;
+import me.shortdev.devutils.packages.npc.NPC;
 
 public class MovementListener implements Listener {
     @EventHandler

@@ -1,4 +1,4 @@
-package me.shortdev.devutils.npc;
+package me.shortdev.devutils.packages.npc;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

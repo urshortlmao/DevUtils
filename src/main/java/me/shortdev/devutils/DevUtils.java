@@ -1,11 +1,11 @@
 package me.shortdev.devutils;
 
-import me.shortdev.devutils.customenchantments.CustomEnchantment;
-import me.shortdev.devutils.customenchantments.CustomEnchantmentType;
-import me.shortdev.devutils.data.Save;
-import me.shortdev.devutils.npc.NPCResponse;
-import me.shortdev.devutils.npc.listeners.MovementListener;
-import me.shortdev.devutils.npc.listeners.RightClickListener;
+import me.shortdev.devutils.packages.customenchantments.CustomEnchantment;
+import me.shortdev.devutils.packages.customenchantments.CustomEnchantmentType;
+import me.shortdev.devutils.packages.data.Save;
+import me.shortdev.devutils.packages.npc.NPCResponse;
+import me.shortdev.devutils.packages.npc.listeners.MovementListener;
+import me.shortdev.devutils.packages.npc.listeners.RightClickListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -194,13 +194,18 @@ public final class DevUtils extends JavaPlugin {
         return stringBuilder.toString();
     }
 
+    @SuppressWarnings("unchecked")
     public static <E> E[] sortArrayByDesiredType(E[] array, Class<?>[] desiredTypeOrder) {
-        Class<?>[] actualTypeOrder = new Class<?>[array.length];
-        for (int i = 0; i < array.length; i++) {
-            E element = array[i];
-            actualTypeOrder[i] = element.getClass();
+        E[] output = (E[]) new Object[desiredTypeOrder.length];
+        for (E element : array) {
+            int elementIndex = -1;
+            for (int i = 0; i < desiredTypeOrder.length; i++) {
+                if (desiredTypeOrder[i] == element.getClass()) {
+                    elementIndex = i;
+                }
+            }
         }
-        
+        return output;
     }
 
     public static void registerNPCResponseClasses(Plugin plugin, Class<?>... npcResponseClasses) {

@@ -1,4 +1,4 @@
-package me.shortdev.devutils.data;
+package me.shortdev.devutils.packages.data;
 
 import org.bukkit.plugin.Plugin;
 

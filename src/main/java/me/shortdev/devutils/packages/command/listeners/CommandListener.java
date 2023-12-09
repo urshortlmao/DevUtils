@@ -1,6 +1,6 @@
-package me.shortdev.devutils.command.listeners;
+package me.shortdev.devutils.packages.command.listeners;
 
-import me.shortdev.devutils.command.Command;
+import me.shortdev.devutils.packages.command.Command;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
